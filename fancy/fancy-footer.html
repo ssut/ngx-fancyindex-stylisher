@@ -1,0 +1,18 @@
+<footer>
+    <span><a href="/" id="domain"></a></span>
+    <ul>
+        <li><a href="https://github.com/ssut/ngx-fancyindex-stylisher">FORK ME ON <strong>GITHUB</strong></a></li>
+        <li><a href="https://github.com/premist/ngx-fancyindex">NGX-FANCYINDEX</a></li>
+    </ul>
+</footer>
+</div>
+<script>
+    $(document).ready(function() {
+      var path = $('h1:first').text().split('\n')[1];
+
+      window.document.title = 'Index of ' + path;
+      $('#domain').text(window.location.host);
+  });
+</script>
+</body>
+</html>
