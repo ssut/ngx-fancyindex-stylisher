@@ -14,6 +14,20 @@ class Color:
     FAIL = '\033[91m'
     ENDC = '\033[0m'
 
+class Formatter:
+    def __init__(self, fp=None, fmt=[]):
+        self.fp = fp
+        self.fmt = fmt
+
+    def write(self, text):
+        _text = ''
+        for i in self.fmt:
+            _text += i if len(i) > 0 else text
+        self.fp.write(_text)
+
+_stderr = stderr
+stderr = Formatter(fp=_stderr, fmt=[Color.FAIL, '', Color.ENDC])
+
 def _check_uid(uid=0):
     """
     check user unique id
