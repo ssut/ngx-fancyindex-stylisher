@@ -4,7 +4,7 @@ import shlex
 from shutil import copy
 from sys import argv, stdout, stderr, exit
 from platform import dist
-from os import getuid, path
+from os import getuid, path, access, W_OK
 
 class Color:
     HEADER = '\033[95m'
@@ -67,13 +67,26 @@ def install():
     if not path.isfile('/etc/nginx/fancyindex.conf'):
         copyfile('fancy/fancyindex.conf', '/etc/nginx/fancyindex.conf')
 
+    print >> stdout, 'Install complete. Execute "install.py' + \
+                     ' template /path/somewhere" to copy template.'
+    exit(0)
 
-
-def template():
+def template(directory):
     """
     copy fancyindex template file to specify directory
     """
+    if not path.isdir(directory) or not access(directory, W_OK):
+        print >> stderr, 'Path not exists / cannot get write permission.'
+        exit(1)
 
+    copyfile('fancy/fancy-header.html', path.join(directory,
+                                                  'fancy-header.html'))
+    copyfile('fancy/fancy-footer.html', path.join(directory,
+                                                  'fancy-footer.html'))
+    copyfile('fancy/fancy.css', path.join(directory, 'fancy.css'))
+
+    print >> stdout, 'Copy complete. Add "include fancyindex.conf;" to' + \
+                     ' your nginx web server configuration file.'
 
 def main():
     if not _check_uid():
@@ -97,7 +110,8 @@ def main():
     except KeyError:
         print >> stderr, 'unknown command: ', command
     else:
-        func()
+        args = argv[2:]
+        func(*args)
 
 if __name__ == '__main__':
     main()
