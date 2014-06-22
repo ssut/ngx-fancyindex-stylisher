@@ -65,7 +65,7 @@ def install():
     install fancyindex conf
     """
     if not path.isfile('/etc/nginx/fancyindex.conf'):
-        copyfile('fancy/fancyindex.conf', '/etc/nginx/fancyindex.conf')
+        copy('fancy/fancyindex.conf', '/etc/nginx/fancyindex.conf')
 
     print >> stdout, 'Install complete. Execute "install.py' + \
                      ' template /path/somewhere" to copy template.'
@@ -79,11 +79,11 @@ def template(directory):
         print >> stderr, 'Path not exists / cannot get write permission.'
         exit(1)
 
-    copyfile('fancy/fancy-header.html', path.join(directory,
+    copy('fancy/fancy-header.html', path.join(directory,
                                                   'fancy-header.html'))
-    copyfile('fancy/fancy-footer.html', path.join(directory,
+    copy('fancy/fancy-footer.html', path.join(directory,
                                                   'fancy-footer.html'))
-    copyfile('fancy/fancy.css', path.join(directory, 'fancy.css'))
+    copy('fancy/fancy.css', path.join(directory, 'fancy.css'))
 
     print >> stdout, 'Copy complete. Add "include fancyindex.conf;" to' + \
                      ' your nginx web server configuration file.'
